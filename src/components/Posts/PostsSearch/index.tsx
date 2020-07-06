@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined } from '@ant-design/icons';
 
-import "./style.sass";
+import './style.scss';
 
 const PostsSearch = () => {
   return (

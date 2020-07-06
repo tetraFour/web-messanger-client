@@ -1,30 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { Button } from "antd";
-import { Input } from "antd";
-import { InfoCircleTwoTone } from "@ant-design/icons";
-import { useHttp } from "../../../hooks/http.hooks";
-import { useNotification } from "../../../hooks/notification.hooks";
+import React, { useState } from 'react';
 
-import { SignProps, FormControl } from "../../../types";
+import { Link, useHistory } from 'react-router-dom';
 
-import "./style.sass";
+import { Button, Input } from 'antd';
 
-const SignUp = ({ setAuthState }: SignProps) => {
-  const changeStateHandler = () => {
-    setAuthState("sign-in");
-  };
+import { useHttp, useNotification } from 'hooks';
 
-  const [isSignUp, setIsSignUp] = useState(true);
+import { FormControl } from 'types';
 
+import './style.scss';
+
+const SignUp = () => {
   const makeNotification = useNotification();
 
-  const { loading, error, request } = useHttp();
+  const { loading, request } = useHttp();
+
+  const history = useHistory();
 
   const [form, setForm] = useState<FormControl>({
-    login: "",
-    name: "",
-    email: "",
-    password: "",
+    login: '',
+    name: '',
+    email: '',
+    password: '',
+    repeatPassword: '',
   });
 
   const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,24 +31,17 @@ const SignUp = ({ setAuthState }: SignProps) => {
   const submitHandler = async (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
     try {
-      const data: any = await request(
-        "http://localhost:5000/api/auth/register",
-        "POST",
-        { ...form }
+      const data = await request(
+        `${process.env.REACT_APP_BASE_URL}/api/auth/signup`,
+        'POST',
+        { ...form },
       );
-      console.log("data:", data);
-      makeNotification("Ура!", data.message, "success");
-      // setAuthState("sign-in");
-      setIsSignUp(false);
+      makeNotification('Ура!', data.message, 'success');
+      history.push('/confirmation');
     } catch (error) {
-      // console.log(error.response.data.message);
-      makeNotification("Упс!", error.response.data.message, "error");
+      makeNotification('Упс!', error.response.data.message, 'error');
     }
   };
-
-  useEffect(() => {
-    console.log(form);
-  });
 
   return (
     <div className="auth">
@@ -59,83 +50,68 @@ const SignUp = ({ setAuthState }: SignProps) => {
         Для входа в чат, вам нужно зарегистрироваться
       </p>
       <div className="form-wrapper">
-        {isSignUp ? (
-          <>
-            <form className="form" onSubmit={submitHandler}>
-              <div className="form__input">
-                <Input
-                  className="form__input"
-                  size="large"
-                  type="text"
-                  placeholder="Логин"
-                  name="login"
-                  onChange={changeInputHandler}
-                />
-              </div>
-              <div className="form__input">
-                <Input
-                  className="form__input"
-                  size="large"
-                  type="email"
-                  placeholder="E-mail"
-                  name="email"
-                  onChange={changeInputHandler}
-                />
-              </div>
-              <div className="form__input">
-                <Input
-                  className="form__input"
-                  size="large"
-                  type="name"
-                  placeholder="Ваше имя"
-                  name="name"
-                  onChange={changeInputHandler}
-                />
-              </div>
-              <div className="form__input">
-                <Input
-                  className="form__input"
-                  size="large"
-                  type="password"
-                  placeholder="Пароль"
-                  name="password"
-                  onChange={changeInputHandler}
-                />
-              </div>
-              <div className="form__input">
-                <Input
-                  className="form__input"
-                  size="large"
-                  type="password"
-                  placeholder="Повторить пароль"
-                  name="repeatPassword"
-                  onChange={changeInputHandler}
-                />
-              </div>
-              <Button
-                type="primary"
-                block
-                size="large"
-                htmlType="submit"
-                loading={loading}
-              >
-                Зарегистрироваться
-              </Button>
-            </form>
-            <Button type="link" onClick={changeStateHandler}>
-              Войти в аккаунт
-            </Button>
-          </>
-        ) : (
-          <>
-            <InfoCircleTwoTone className="confirm-icon" />
-            <h3 className="confirm-title">Подтвердите свой аккаунт</h3>
-            <p className="confirm-sub-title">
-              На Вашу почту отправлено письмо с ссылкой на подтверждение
-              аккаунта.
-            </p>
-          </>
-        )}
+        <form className="form" onSubmit={submitHandler}>
+          <div className="form__input">
+            <Input
+              className="form__input"
+              size="large"
+              type="text"
+              placeholder="Логин"
+              name="login"
+              onChange={changeInputHandler}
+            />
+          </div>
+          <div className="form__input">
+            <Input
+              className="form__input"
+              size="large"
+              type="email"
+              placeholder="E-mail"
+              name="email"
+              onChange={changeInputHandler}
+            />
+          </div>
+          <div className="form__input">
+            <Input
+              className="form__input"
+              size="large"
+              type="name"
+              placeholder="Ваше имя"
+              name="name"
+              onChange={changeInputHandler}
+            />
+          </div>
+          <div className="form__input">
+            <Input
+              className="form__input"
+              size="large"
+              type="password"
+              placeholder="Пароль"
+              name="password"
+              onChange={changeInputHandler}
+            />
+          </div>
+          <div className="form__input">
+            <Input
+              className="form__input"
+              size="large"
+              type="password"
+              placeholder="Повторить пароль"
+              name="repeatPassword"
+              onChange={changeInputHandler}
+            />
+          </div>
+          <Button
+            type="primary"
+            block
+            size="large"
+            htmlType="submit"
+            loading={loading}
+          >
+            Зарегистрироваться
+          </Button>
+        </form>
+        <Link to="/sign-in">Войти в аккаунт</Link>
       </div>
     </div>
   );

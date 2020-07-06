@@ -1,15 +1,25 @@
-import React, { useState } from "react";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+import Confirmation from './Confirmation';
 
 const Auth = () => {
-  const [authState, setAuthState] = useState("sign-in");
   return (
-    <div>
-      {authState === "sign-in" && <SignIn setAuthState={setAuthState} />}
+    <>
+      <Switch>
+        <Route path="/sign-in">
+          <SignIn />
+        </Route>
 
-      {authState === "sign-up" && <SignUp setAuthState={setAuthState} />}
-    </div>
+        <Route path="/sign-up">
+          <SignUp />
+        </Route>
+        <Route path="/confirmation">
+          <Confirmation />
+        </Route>
+      </Switch>
+    </>
   );
 };
 

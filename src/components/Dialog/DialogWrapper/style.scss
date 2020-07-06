@@ -1,0 +1,234 @@
+.message-dialog-wrapper {
+  width: 100%;
+  height: calc(100vh - 160px);
+  padding-top: 30px;
+  overflow-y: scroll;
+}
+.message-dialog {
+  padding: 0 35px;
+
+  &__item {
+    max-width: 45%;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 25px;
+    position: relative;
+  }
+  &__item-wrapper {
+    position: relative;
+
+    &_hover {
+      &::before {
+        content: '';
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        position: absolute;
+        top: -15px;
+        left: -10px;
+        border-radius: 8px;
+        width: calc(100% + 20px);
+        height: calc(100% + 30px);
+        background: #f9fbfd;
+      }
+
+      &:hover {
+        &::before {
+          opacity: 1;
+        }
+      }
+    }
+
+    &_me {
+      .message-dialog__item {
+        flex-direction: row-reverse;
+        margin-left: auto;
+      }
+
+      .message-dialog__avatar-wrapper {
+        margin-right: 0;
+        margin-left: 13px;
+      }
+
+      .message-dialog__bubble {
+        align-self: flex-end;
+        background-color: #fff;
+        border-radius: 12px 12px 0 12px;
+        border: 1px solid #ececec;
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.0220444);
+      }
+
+      .message-dialog__message-text {
+        color: #202020;
+      }
+
+      .message-dialog__photo-wrapper {
+        justify-content: flex-end;
+      }
+
+      .message-dialog__item-wrapper_hover {
+        &::before {
+          top: -15px;
+          left: 0;
+        }
+      }
+
+      .message-dialog__date {
+        align-self: flex-end;
+      }
+    }
+  }
+
+  &__avatar-wrapper {
+    margin-right: 13px;
+    margin-bottom: 25px;
+  }
+
+  &__avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+
+  &__message-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    &_typing {
+      align-self: flex-start;
+      margin-top: 5px;
+    }
+  }
+
+  &__bubble {
+    background-color: #3674ff;
+    border-radius: 12px 12px 12px 0px;
+    box-shadow: 0px 5px 5px rgba(54, 116, 255, 0.196733);
+    padding: 13px 15px;
+    margin-bottom: 8px;
+  }
+
+  &__message-text {
+    color: white;
+    line-height: 20px;
+    font-size: 14px;
+    font-weight: normal;
+    margin-bottom: 0;
+  }
+
+  &__date {
+    opacity: 0.4;
+  }
+
+  &__photo-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+  }
+
+  &__photo {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0 3px 3px 0;
+
+    img {
+      width: 100%;
+    }
+
+    &_add {
+      background-color: black;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      button {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &:last-child {
+      margin: 0;
+    }
+  }
+
+  &__file-wrapper {
+    width: 300px;
+    background: #eff4ff;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  &__file {
+    position: relative;
+    padding: 20px;
+  }
+
+  &__file-icon {
+    position: absolute;
+    top: 30px;
+    right: 10px;
+    font-size: 100px;
+    color: #bfbfbf;
+  }
+
+  &__file-title {
+    font-size: 14px;
+    margin-bottom: 4px;
+    font-weight: bold;
+    line-height: 16px;
+  }
+
+  &__file-subtitle {
+    font-size: 14px;
+    color: #202020;
+    opacity: 0.6;
+    line-height: 16px;
+  }
+
+  &__file-link {
+    padding: 15px 20px;
+    background: #3674ff;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    transition: 0.2s background ease;
+    a {
+      color: white;
+      text-transform: uppercase;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    }
+    &:hover {
+      background: #7ba4ff;
+    }
+  }
+  &__file-link-icon {
+    margin-right: 10px;
+    color: #bfbfbf;
+    font-size: 16px;
+  }
+
+  &__username-typing {
+    display: flex;
+    margin-bottom: 0;
+  }
+
+  &__sticker {
+    display: block;
+    max-width: 210px;
+    max-height: 260px;
+  }
+}

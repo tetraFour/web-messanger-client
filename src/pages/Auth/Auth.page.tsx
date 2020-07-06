@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import Auth from "../../components/Auth/Auth";
-import "./auth-page.sass";
+import Auth from 'components/Auth/Auth';
+import './auth-page.scss';
 
 const AuthPage = () => {
   return (

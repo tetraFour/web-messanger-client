@@ -1,0 +1,47 @@
+.auth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__title {
+    font-size: 28px;
+    color: #202002;
+  }
+
+  &__sub-title {
+    font-size: 18px;
+    color: #202002;
+    opacity: 0.5;
+    margin-bottom: 30px;
+  }
+}
+
+.form-wrapper {
+  background: white;
+  width: 430px;
+  padding: 45px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.04204);
+}
+.form {
+  &__input {
+    margin-bottom: 15px;
+
+    input {
+      padding: 15px;
+    }
+  }
+
+  button {
+    height: 57px;
+    text-transform: uppercase;
+    padding: 15px;
+    margin-bottom: 30px;
+
+    //safari icons bug
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}

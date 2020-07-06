@@ -1,26 +1,32 @@
-import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import React, { lazy, Suspense } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
-import HomePage from "./pages/Home/Home.page";
-import AuthPage from "./pages/Auth/Auth.page";
+import Preloader from 'components/Preloader';
+
+const HomePage = lazy(() => import('pages/Home/Home.page'));
+const AuthPage = lazy(() => import('pages/Auth/Auth.page'));
 
 export const useRoutes = (isAuth: boolean) => {
   if (isAuth) {
     return (
-      <Switch>
-        <Route path="/home" exact>
-          <HomePage />
-        </Route>
-        <Redirect to="/home" />
-      </Switch>
+      <Suspense fallback={<Preloader />}>
+        <Switch>
+          <Route path="/home">
+            <HomePage />
+          </Route>
+          <Redirect to="/home" />
+        </Switch>
+      </Suspense>
     );
   }
   return (
-    <Switch>
-      <Route path="/" exact>
-        <AuthPage />
-      </Route>
-      <Redirect to="/" />
-    </Switch>
+    <Suspense fallback={<Preloader />}>
+      <Switch>
+        <Route path="/">
+          <AuthPage />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    </Suspense>
   );
 };

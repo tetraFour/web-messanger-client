@@ -1,32 +1,39 @@
-import React from "react";
+import React from 'react';
 
-import { AuthContext } from "./context/AuthContext";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import { useAuth } from "./hooks/auth.hooks";
-import { useRoutes } from "./routes";
+import { AuthContext } from 'context/AuthContext';
 
-import "./assets/styles/App.sass";
+import { useAuth } from 'hooks/auth.hook';
+
+import { useRoutes } from 'routes';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import rootReducer from 'store/reducers';
+
+const store = createStore(rootReducer);
 
 function App() {
-  const { token, login, logout, userId, ready } = useAuth();
+  const { token, login, logout, userId } = useAuth();
   const isAuthenticated = !!token;
   const routes = useRoutes(isAuthenticated);
 
   return (
-    <AuthContext.Provider
-      value={{
-        token,
-        login,
-        logout,
-        userId,
-        isAuthenticated,
-      }}
-    >
-      <Router>
-        <div className="container">{routes}</div>
-      </Router>
-    </AuthContext.Provider>
+    <Provider store={store}>
+      <AuthContext.Provider
+        value={{
+          token,
+          login,
+          logout,
+          userId,
+          isAuthenticated,
+        }}
+      >
+        <Router>
+          <main>{routes}</main>
+        </Router>
+      </AuthContext.Provider>
+    </Provider>
   );
 }
 

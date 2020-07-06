@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 export type AuthContextType = {
   token: string | null;
@@ -9,10 +9,10 @@ export type AuthContextType = {
   ready?: boolean;
 };
 
-export const AuthContext = createContext({
+export const AuthContext = createContext<AuthContextType>({
   token: null,
   userId: null,
   login: (): void => {},
   logout: (): void => {},
   isAuthenticated: false,
-} as AuthContextType);
+});

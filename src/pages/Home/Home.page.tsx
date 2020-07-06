@@ -1,30 +1,15 @@
-import React from "react";
+import React from 'react';
 
-import Posts from "../../components/Posts/PostsWrapper";
+import Posts from 'components/Posts/PostsWrapper';
+import Message from 'components/Dialog';
 
-import {
-  SmileOutlined,
-  CameraOutlined,
-  AudioOutlined,
-  EllipsisOutlined,
-  SendOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
-
-import "./style.sass";
+import './style.scss';
 
 const Home = () => {
   return (
     <div className="messenger">
       <Posts />
-      {/* <FormOutlined /> */}
-      {/* <TeamOutlined /> */}
-      <SmileOutlined />
-      <CameraOutlined />
-      <AudioOutlined />
-      <EllipsisOutlined />
-      <SearchOutlined />
-      <SendOutlined />
+      <Message />
     </div>
   );
 };

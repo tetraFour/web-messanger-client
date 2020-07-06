@@ -1,52 +1,49 @@
-import React, { useState, useCallback, useContext } from "react";
-import { Button } from "antd";
-import { Input } from "antd";
+import React, { useState, useContext } from 'react';
+import { Button, Input } from 'antd';
 
-import { AuthContext } from "../../../context/AuthContext";
+import { AuthContext } from 'context/AuthContext';
 
-import { useHttp } from "../../../hooks/http.hooks";
-import { useNotification } from "../../../hooks/notification.hooks";
+import { useHttp, useNotification } from 'hooks';
 
-import { SignProps, FormControl } from "../../../types";
+import { FormControl } from 'types';
 
-import "./style.sass";
+import './style.scss';
+import { Link } from 'react-router-dom';
 
-const SignIn = ({ setAuthState }: SignProps) => {
-  const changeStateHandler = () => {
-    setAuthState("sign-up");
-  };
-
+const SignIn = () => {
   const auth = useContext(AuthContext);
 
   const makeNotification = useNotification();
 
-  const { loading, error, request } = useHttp();
+  const { loading, request } = useHttp();
 
   const [form, setForm] = useState<FormControl>({
-    login: "",
-    password: "",
+    login: '',
+    password: '',
   });
 
-  const changeInputHandler = useCallback(
+  const changeInputHandler =
+    // useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setForm({ ...form, [event.target.name]: event.target.value });
-    },
-    [form]
-  );
+    };
+  // },
+  //   [form]
+  // );
   const signInHandler = async (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
     try {
-      const result: any = await request(
-        "http://localhost:5000/api/auth/login",
-        "POST",
-        { ...form }
+      const result = await request(
+        `${process.env.REACT_APP_BASE_URL}/api/auth/signin`,
+        'POST',
+        { ...form },
       );
       auth.login(result.token, result.userId);
 
-      console.log("result:", result);
-
-      makeNotification("Ура!", "вы успешно вошли!", "success");
-    } catch (error) {}
+      makeNotification('Ура!', 'вы успешно вошли!', 'success');
+    } catch (error) {
+      makeNotification('Упс!', error.response.data.message, 'error');
+    }
   };
 
   return (
@@ -78,9 +75,7 @@ const SignIn = ({ setAuthState }: SignProps) => {
             Войти в аккаунт
           </Button>
         </form>
-        <Button type="link" onClick={changeStateHandler}>
-          зарегистрироваться
-        </Button>
+        <Link to="/sign-up">Зарегистриваться</Link>
       </div>
     </div>
   );

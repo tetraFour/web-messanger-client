@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "baseUrl": "src",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
+//    "strictNullChecks": false,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -16,9 +18,5 @@
     "jsx": "react"
   },
   "include": ["src"],
-  "plugins": [
-    {
-      "name": "typescript-deno-plugin"
-    }
-  ]
+  "plugins": []
 }

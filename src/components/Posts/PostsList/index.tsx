@@ -1,12 +1,16 @@
-import React from "react";
+import React from 'react';
 
-import PostsListItem from "../PostsListItem";
+import PostsListItem from '../PostsListItem';
 
-import "./style.sass";
+import './style.scss';
+
 const PostsList = () => {
   return (
     <div className="posts-list">
-      <PostsListItem />
+      <PostsListItem id={1} />
+      <PostsListItem id={2} />
+      <PostsListItem id={3} />
+      <PostsListItem id={4} />
     </div>
   );
 };
