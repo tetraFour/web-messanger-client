@@ -2,7 +2,7 @@ import React from 'react';
 
 import { InfoCircleTwoTone } from '@ant-design/icons';
 
-const Index = () => {
+const Confirmation = () => {
   return (
     <>
       <div className="auth">
@@ -18,4 +18,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Confirmation;

@@ -1,12 +1,16 @@
 .posts-search {
-  width: 285px;
-  margin-top: 20px;
-  background: #f7f8f9;
-  display: flex;
-  align-items: center;
-  border-radius: 2px;
-  padding-left: 15px;
-  margin-bottom: 30px;
+  width: 100%;
+  margin: 20px 0 30px;
+  padding: 0 17px;
+
+  &__control {
+    border-radius: 2px;
+    width: 100%;
+    display: flex;
+    padding-left: 15px;
+    align-items: center;
+    background: #f7f8f9;
+  }
 
   &__icon {
     margin-right: 8px;

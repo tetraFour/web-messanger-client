@@ -1,12 +1,14 @@
 import React from 'react';
 
+import classnames from 'classnames';
+
 import { Spin } from 'antd';
 
 import './style.scss';
 
-const Preloader = () => {
+const Preloader: React.FC<{ inner?: boolean }> = ({ inner }) => {
   return (
-    <div className="preloader">
+    <div className={classnames('preloader', inner && 'preloader_inner')}>
       <Spin />
     </div>
   );

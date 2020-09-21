@@ -1,0 +1,13 @@
+.message-typing {
+  position: absolute;
+  width: auto;
+  bottom: -50px;
+  left: 35px;
+  .message-dialog__item {
+    max-width: initial;
+    margin-bottom: 0;
+  }
+  .message-dialog__avatar-wrapper {
+    margin-bottom: 0;
+  }
+}

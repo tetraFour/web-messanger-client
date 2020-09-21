@@ -7,16 +7,12 @@ import DialogHeader from './DialogHeader';
 import DialogWrapper from './DialogWrapper';
 
 import './style.scss';
-import HomeSection from '../HomeSection';
 
 const Message = () => {
   return (
     <section className="message-wrapper">
       <Switch>
-        <Route exact path="/home">
-          <HomeSection />
-        </Route>
-        <Route path="/home/:id">
+        <Route path="/home/:dialogPartnerId">
           <DialogHeader />
           <DialogWrapper />
           <DialogInput />

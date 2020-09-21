@@ -25,6 +25,7 @@
     }
   }
 }
+
 .username-with-status {
   width: 100%;
   display: flex;
@@ -48,9 +49,8 @@
     &_is-online {
       &::before {
         content: '';
-        top: 6px;
-        left: -10px;
-        position: absolute;
+        display: inline-block;
+        margin-right: 5px;
         width: 6px;
         height: 6px;
         border-radius: 50%;

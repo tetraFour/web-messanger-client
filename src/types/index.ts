@@ -1,5 +1,7 @@
-export interface SignProps {
-  setAuthState: (state: string) => void;
+export interface IRouteProps {
+  Component: React.ReactType;
+  exact?: boolean;
+  path: string;
 }
 
 export type FormControl = {
@@ -10,12 +12,6 @@ export type FormControl = {
   email?: string;
 };
 
-// export interface IMessageProps {
-//   isMe?: boolean;
-//   flag: string;
-//   content?: object;
-// }
-
 export type Photo = {
   id: number;
   photoLink: string;
@@ -23,7 +19,7 @@ export type Photo = {
 };
 
 export interface IMessageContentType {
-  text?: string;
+  messageText?: string;
   fileSize?: string;
   filePath?: string;
   fileName?: string;
@@ -32,8 +28,11 @@ export interface IMessageContentType {
 }
 
 export interface IMessages {
-  id?: number;
+  _id?: number;
   isMe: boolean;
+  user: string;
   flag: string;
   content: IMessageContentType;
+  date: Date;
+  partner: string;
 }

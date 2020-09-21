@@ -8,7 +8,8 @@
   transition: 0.2s background ease;
 
   &:hover {
-    background: #e9edf2;
+    //background: #e9edf2;
+    background: #f3f7ff;
 
     .posts-list-item__online {
       border-color: #e9edf2;
@@ -16,7 +17,9 @@
   }
 
   &_active {
-    background: #f3f7ff;
+    //background: #f3f7ff;
+
+    background: #e7f2ff;
 
     .posts-list-item__online {
       border-color: #f3f7ff;
@@ -50,6 +53,7 @@
     display: block;
     width: 40px;
     height: 40px;
+    background-color: #7ba4ff;
     border-radius: 50%;
   }
 

@@ -1,40 +1,64 @@
 import React, { useRef, useEffect } from 'react';
 
-import { messagesType } from 'assets/mock/typeOfMessage';
+import { useParams } from 'react-router-dom';
+import { observer } from 'mobx-react';
 
-// import { MessageContentType } from 'types';
+import { userStore } from 'Store/User';
+import { messagesStore } from 'Store/Messages';
+import { IMessages } from 'types';
 
-import { MessageTyping } from './DialogMessage';
+import { checkUser } from 'utils/userChecker';
 
 import DialogMessageContainer from './DialogMessage/DialogMessageContainer';
 
 import './style.scss';
 
-const MessageDialog = () => {
-  // scroll at the end of the dialog
+const userGetter = (user: string, partner: string) =>
+  `${process.env.REACT_APP_BASE_URL}/api/message/get-messages?user=${user}&partner=${partner}`;
+
+const MessageDialog = observer(() => {
+  const { messages, loadMessages } = messagesStore;
+  const { userId } = userStore;
+
   const messageWrapper = useRef<HTMLDivElement>(null);
+  const messageDialogWrapper = useRef<HTMLUListElement>(null);
+
+  const { dialogPartnerId } = useParams();
+
   useEffect(() => {
-    if (messageWrapper && messageWrapper.current) {
-      messageWrapper.current.scrollTop = messageWrapper.current.scrollHeight;
-    }
-  }, []);
+    messageWrapper!.current!.scrollTop = messageDialogWrapper!.current!.scrollHeight;
+  }, [messages]);
+
+  useEffect(() => {
+    loadMessages(userGetter(userId, dialogPartnerId));
+  }, [dialogPartnerId, loadMessages, userId]);
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      loadMessages(userGetter(userId, dialogPartnerId));
+    }, 2000);
+
+    return () => {
+      clearTimeout(timeOut);
+    };
+  }, [dialogPartnerId, userId, messages, loadMessages]);
 
   return (
     <div className="message-dialog-wrapper" ref={messageWrapper}>
-      <ul className="message-dialog">
-        {messagesType.map((message) => (
-          <li key={message.id}>
+      <ul className="message-dialog" ref={messageDialogWrapper}>
+        {messages.map((message: IMessages) => (
+          <li key={message._id}>
             <DialogMessageContainer
-              isMe={message.isMe}
+              isMe={checkUser(message.user, userId)}
               flag={message.flag}
               content={message.content}
+              date={message.date}
             />
           </li>
         ))}
-        <MessageTyping />
       </ul>
     </div>
   );
-};
+});
 
 export default MessageDialog;

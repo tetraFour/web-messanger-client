@@ -40,12 +40,13 @@
     "max-len": [
       "warn",
       {
-        "code": 80,
+        "code": 90,
         "ignoreStrings": true,
         "ignoreTemplateLiterals": true,
         "ignoreComments": true
       }
     ],
+    "no-underscore-dangle": 0,
     "no-plusplus": [
       "error",
       {

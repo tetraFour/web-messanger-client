@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 
 import { Link, useHistory } from 'react-router-dom';
-
+import { observer } from 'mobx-react';
 import { Button, Input } from 'antd';
 
-import { useHttp, useNotification } from 'hooks';
-
 import { FormControl } from 'types';
+import { userStore } from 'Store/User';
+import { useNotification } from 'hooks';
 
 import './style.scss';
 
-const SignUp = () => {
+const SignUp = observer(() => {
   const makeNotification = useNotification();
 
-  const { loading, request } = useHttp();
-
   const history = useHistory();
+
+  const { createUser } = userStore;
 
   const [form, setForm] = useState<FormControl>({
     login: '',
@@ -31,12 +31,8 @@ const SignUp = () => {
   const submitHandler = async (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
     try {
-      const data = await request(
-        `${process.env.REACT_APP_BASE_URL}/api/auth/signup`,
-        'POST',
-        { ...form },
-      );
-      makeNotification('Ура!', data.message, 'success');
+      const data = await createUser(form);
+      makeNotification('Ура!', data.data.message, 'success');
       history.push('/confirmation');
     } catch (error) {
       makeNotification('Упс!', error.response.data.message, 'error');
@@ -101,13 +97,7 @@ const SignUp = () => {
               onChange={changeInputHandler}
             />
           </div>
-          <Button
-            type="primary"
-            block
-            size="large"
-            htmlType="submit"
-            loading={loading}
-          >
+          <Button type="primary" block size="large" htmlType="submit">
             Зарегистрироваться
           </Button>
         </form>
@@ -115,6 +105,6 @@ const SignUp = () => {
       </div>
     </div>
   );
-};
+});
 
 export default SignUp;

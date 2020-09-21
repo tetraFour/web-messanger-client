@@ -1,46 +1,36 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
+
+import { Link, useHistory } from 'react-router-dom';
+import { observer } from 'mobx-react';
 import { Button, Input } from 'antd';
 
-import { AuthContext } from 'context/AuthContext';
-
-import { useHttp, useNotification } from 'hooks';
-
+import { userStore } from 'Store/User';
+import { useNotification } from 'hooks';
 import { FormControl } from 'types';
 
 import './style.scss';
-import { Link } from 'react-router-dom';
 
-const SignIn = () => {
-  const auth = useContext(AuthContext);
-
+const SignIn = observer(() => {
   const makeNotification = useNotification();
+  const history = useHistory();
 
-  const { loading, request } = useHttp();
+  const { loadUser } = userStore;
 
   const [form, setForm] = useState<FormControl>({
     login: '',
     password: '',
   });
 
-  const changeInputHandler =
-    // useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setForm({ ...form, [event.target.name]: event.target.value });
-    };
-  // },
-  //   [form]
-  // );
+  const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [event.target.name]: event.target.value });
+  };
+
   const signInHandler = async (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
     try {
-      const result = await request(
-        `${process.env.REACT_APP_BASE_URL}/api/auth/signin`,
-        'POST',
-        { ...form },
-      );
-      auth.login(result.token, result.userId);
-
+      await loadUser(form);
       makeNotification('Ура!', 'вы успешно вошли!', 'success');
+      history.push('/home');
     } catch (error) {
       makeNotification('Упс!', error.response.data.message, 'error');
     }
@@ -71,7 +61,7 @@ const SignIn = () => {
               onChange={changeInputHandler}
             />
           </div>
-          <Button type="primary" block htmlType="submit" loading={loading}>
+          <Button type="primary" block htmlType="submit">
             Войти в аккаунт
           </Button>
         </form>
@@ -79,6 +69,6 @@ const SignIn = () => {
       </div>
     </div>
   );
-};
+});
 
 export default SignIn;

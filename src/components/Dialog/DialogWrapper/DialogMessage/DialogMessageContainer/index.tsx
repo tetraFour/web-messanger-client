@@ -2,7 +2,6 @@ import React from 'react';
 
 import classnames from 'classnames';
 
-import { IMessages, IMessageContentType } from 'types';
 import {
   MessageFile,
   MessageSticker,
@@ -10,15 +9,20 @@ import {
   MessagePhoto,
 } from 'components/Dialog/DialogWrapper/DialogMessage';
 
+import { IMessageContentType } from 'types';
+
 import { FILE, PHOTO, STICKER, TEXT } from 'utils/constans';
+import { getDate } from 'utils/getDate';
+import { userStore } from 'Store/User';
+import { dialogStore } from 'Store/Dialog';
+import { getUserPic } from 'utils/getUserPic';
 
 function getContent(messageFlag: string, innerContent: IMessageContentType) {
-  // function getContent(messageFlag: string, innerContent: any) {
   let finallyComponent;
   switch (messageFlag) {
     case TEXT:
       finallyComponent = innerContent && (
-        <MessageText textContent={innerContent.text} />
+        <MessageText textContent={innerContent.messageText} />
       );
       break;
     case FILE:
@@ -46,12 +50,15 @@ function getContent(messageFlag: string, innerContent: IMessageContentType) {
   return finallyComponent;
 }
 
-const DialogMessageContainer: React.FC<IMessages> = ({
-  isMe,
-  children,
-  content,
-  flag,
-}) => {
+const DialogMessageContainer: React.FC<{
+  isMe: boolean;
+  content: IMessageContentType;
+  flag: string;
+  date: Date;
+}> = ({ isMe, content, flag, date }) => {
+  const { avatar } = userStore;
+  const { partnerAvatar } = dialogStore;
+
   return (
     <div
       className={classnames(
@@ -64,15 +71,21 @@ const DialogMessageContainer: React.FC<IMessages> = ({
     >
       <div className="message-dialog__item message-dialog__item">
         <button type="button" className="message-dialog__avatar-wrapper">
-          <img
-            className="message-dialog__avatar"
-            src={`${process.env.PUBLIC_URL}/shiba.jpg`}
-            alt="username-avatar"
-          />
+          {avatar ? (
+            <img
+              className="message-dialog__avatar"
+              src={getUserPic(isMe, avatar, partnerAvatar)}
+              alt="username-avatar"
+            />
+          ) : (
+            <div className="message-dialog__avatar" />
+          )}
         </button>
         <div className="message-dialog__message-wrapper">
           {getContent(flag, content)}
-          <span className="message-dialog__date">Вчера, в 12:31</span>
+          <span className="message-dialog__date">
+            {getDate(new Date(date))}
+          </span>
         </div>
       </div>
     </div>
